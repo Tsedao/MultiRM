@@ -16,6 +16,10 @@ cd MultiRM
 ## Demo
 Usage:
 ```
+python main.py -s [RNA sequence] --top [No. of top-k highlighted sites] --gpu [which gpu to use]
+```
+Example:
+```
 python main.py -s CCTTTCCTCACCCATCTTAAGGTTCAATGGCTGACACTTCTGCAACAAAAG --top 3 --gpu 0
 ```
 Predicting the RNA modification of a singe RNA sequence (Minimum length:21-bp), the result generates as:
