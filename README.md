@@ -17,7 +17,7 @@ Usage:
 ```
 python main.py -s CCTTTCCTCACCCATCTTAAGGTTCAATGGCTGACACTTCTGCAACAAAAG
 ```
-Predicting the RNA modification a singe RNA sequence, the result generates as:
+Predicting the RNA modification of a singe RNA sequence, the result generates as:
 ```
 ****************************************Sample 1****************************************
 The sequence is predicted as: m6Am with prob 0.127927 at threshold 0.032172
