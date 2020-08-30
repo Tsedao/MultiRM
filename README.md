@@ -16,9 +16,9 @@ cd MultiRM
 ## Demo
 Usage:
 ```
-python main.py -s CCTTTCCTCACCCATCTTAAGGTTCAATGGCTGACACTTCTGCAACAAAAG
+python main.py -s CCTTTCCTCACCCATCTTAAGGTTCAATGGCTGACACTTCTGCAACAAAAG --top 3 --gpu 0
 ```
-Predicting the RNA modification of a singe RNA sequence, the result generates as:
+Predicting the RNA modification of a singe RNA sequence (Minimum length:21-bp), the result generates as:
 ```
 ****************************************Sample 1****************************************
 The sequence is predicted as: m6Am with prob 0.127927 at threshold 0.032172
