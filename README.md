@@ -1,4 +1,4 @@
-# MultiRM: Attention-based multi-label neuralnetworks for integrated prediction andinterpretation of twelve widely occuring RNAmodifications
+# MultiRM: Attention-based multi-label neural networks for integrated prediction and interpretation of twelve widely occuring RNA modifications
 
 ## Prerequisites
 * `python`: 3.7.6
