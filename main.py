@@ -31,7 +31,7 @@ if __name__ == "__main__":
     original_length = len(args.seqs)
     assert len(args.seqs) >= 21
     if len(args.seqs) < 51:
-        args.model_weights = './model_weights/trained_model_51seqs.pkl'
+        args.model_weights = './model_weights/trained_model_21seqs.pkl'
         length = 21
         thresholds = [0.006630,0.202159,0.125162,0.129332,0.101850,0.355195,
                       0.140955,0.299688,0.031190,0.181220,0.180271,0.350196]
