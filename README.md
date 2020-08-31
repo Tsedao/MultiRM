@@ -3,7 +3,7 @@
 ## Prerequisites
 * `python`: 3.7.6
 * `CUDA`: 10.1
-* `pytorch`: 1.2
+* `pytorch`: 1.2.0
 ## Installation
 Our current release has been tested on Ubuntu 16.04.4 LTS
 
