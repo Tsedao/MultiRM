@@ -20,6 +20,7 @@ if __name__ == "__main__":
     parser.add_argument('--gpu', type=int, default=[0], nargs='+', help="used GPU")
     parser.add_argument('--top',type=int,default=3,help='top k consecutive nucleo based on attention weights')
     parser.add_argument('--alpha',type=float,default=0.05,help='significant level')
+    parser.add_argument('--att_window',type=int,default=3,help='length of sliding window to aggregate attention weights')
     parser.add_argument('--verbose',type=str2bool,default=False,help='Plot modification sites and related attention weights')
     parser.add_argument('--save',type=str2bool,default=False,help='save the prob, p-value, predicted label and attention matrix')
 
@@ -75,13 +76,13 @@ if __name__ == "__main__":
             p_value = np.sum(bool) / len(bool)
 
             if p_value < args.alpha:
-                labels[k,pos+26] = 1
+                labels[k,pos+25] = 1
             p_values[k,pos] = p_value
             probs[k,pos] = y_prob[k]
 
 
 
-        index_list = [i for i, e in enumerate(labels[:,pos+26]) if e == 1]
+        index_list = [i for i, e in enumerate(labels[:,pos+25]) if e == 1]
         if index_list == []:
             print('There is no modification sites at %d '%(pos+26))
         else:
@@ -91,7 +92,7 @@ if __name__ == "__main__":
 
 
                 this_attention = total_attention[0,idx,:]
-                position_dict = highest_x(this_attention,w=3)
+                position_dict = highest_x(this_attention,w=args.att_window)
 
                 edge = pos
 
@@ -104,8 +105,9 @@ if __name__ == "__main__":
                     ends.append(end+edge)
                     scores.append(score)
 
-                    attention[idx,start:end+1] = 1
+                    attention[idx,start+edge:end+edge+1] = 1
 
+    print(attention)
     if args.verbose:
         print()
         print('*'*15+'Visualize modification sites'+'*'*15)

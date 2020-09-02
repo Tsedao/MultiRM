@@ -233,7 +233,7 @@ def visualize(raw_seq,weights,RMs):
         end = np.min([51*(k+1),len(raw_seq)])
         cutted_seqs = raw_seq[start:end]
         # 58 characters
-        print('*'*25+'%2d-%2d bp' %(start+1,end) + '*'*25)
+        print('*'*24+'%3d-%3d bp' %(start+1,end) + '*'*24)
         print('%-7s'%('Origin')+cutted_seqs)
         for i in range(len(RMs)):
             weight = weights[i,:]
