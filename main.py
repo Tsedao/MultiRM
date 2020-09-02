@@ -25,6 +25,7 @@ if __name__ == "__main__":
 
     args = parser.parse_args()
 
+    args.seqs = args.seqs.upper().replace('U','T')                               # preprocessing user input
     num_samples = 1
 
     RMs = ['Am','Cm','Gm','Um','m1A','m5C','m5U','m6A','m6Am','m7G','Psi','AtoI']
