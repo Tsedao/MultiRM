@@ -20,7 +20,7 @@ if __name__ == "__main__":
     parser.add_argument('--gpu', type=int, default=[0], nargs='+', help="used GPU")
     parser.add_argument('--top',type=int,default=3,help='top k consecutive nucleo based on attention weights')
     parser.add_argument('--alpha',type=float,default=0.05,help='significant level')
-    parser.add_argument('--verbose',type=str2bool,default=True,help='Plot modification sites and related attention weights')
+    parser.add_argument('--verbose',type=str2bool,default=False,help='Plot modification sites and related attention weights')
     parser.add_argument('--save',type=str2bool,default=False,help='save the prob, p-value, predicted label and attention matrix')
 
     args = parser.parse_args()
