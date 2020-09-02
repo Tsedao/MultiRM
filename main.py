@@ -85,7 +85,7 @@ if __name__ == "__main__":
             print('There is no modification sites at %d '%(pos+26))
         else:
             for idx in index_list:
-                print('%s is predict at %d with p-value %.4f and alpha %.3f'
+                print('%s is predicted at %d with p-value %.4f and alpha %.3f'
                        %(RMs[idx],pos+26,p_values[idx,pos],args.alpha))
 
 
