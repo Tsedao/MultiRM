@@ -3,6 +3,15 @@ from torch import nn
 import numpy as np
 import pandas as pd
 
+def str2bool(v):
+    if isinstance(v, bool):
+       return v
+    if v.lower() in ('yes', 'true', 't', 'y', '1'):
+        return True
+    elif v.lower() in ('no', 'false', 'f', 'n', '0'):
+        return False
+    else:
+        raise argparse.ArgumentTypeError('Boolean value expected.')
 
 def to_onehot(seq):
     """
@@ -215,13 +224,21 @@ def highest_x(a,w,p=1):
 
     return result
 
-def visual_att(raw_seq,start,end):
-    print(raw_seq+' Original Seqs')
-    original_length = len(raw_seq)
-    new =['-']*original_length
 
-    for s, e in zip(start,end):
+def visualize(raw_seq,weights,RMs):
+    num_bp = len(raw_seq) // 51 + 1
 
-        from_raw_seq = raw_seq[int(s):int(e)+1]
-        new[int(s):int(e)+1] = from_raw_seq
-    print(''.join(new)+ ' Highlighted nucleotides by attention')
+    for k in range(num_bp):
+        start = 51*k
+        end = np.min([51*(k+1),len(raw_seq)])
+        cutted_seqs = raw_seq[start:end]
+        # 58 characters
+        print('*'*25+'%2d-%2d bp' %(start,end) + '*'*25)
+        print('%-7s'%('Origin')+cutted_seqs)
+        for i in range(len(RMs)):
+            weight = weights[i,:]
+            new = ['-'] * (end-start)
+            for j in range(start,end):
+                if int(weight[j]) == 1:
+                    new[j-start] = raw_seq[j]
+            print('%-7s'%(RMs[i])+''.join(new))

@@ -7,7 +7,7 @@ import numpy as np
 import pandas as pd
 
 from models import model_v3
-from util_funs import seq2index, cutseqs, highest_x, visual_att
+from util_funs import seq2index, cutseqs, highest_x,visualize,str2bool
 from util_att import evaluate, cal_attention
 
 if __name__ == "__main__":
@@ -19,6 +19,9 @@ if __name__ == "__main__":
     parser.add_argument('--embedding_path',default='./Embeddings/embeddings_12RM.pkl',type=str)
     parser.add_argument('--gpu', type=int, default=[0], nargs='+', help="used GPU")
     parser.add_argument('--top',type=int,default=3,help='top k consecutive nucleo based on attention weights')
+    parser.add_argument('--alpha',type=float,default=0.05,help='significant level')
+    parser.add_argument('--verbose',type=str2bool,default=True,help='Plot modification sites and related attention weights')
+    parser.add_argument('--save',type=str2bool,default=False,help='save the prob, p-value, predicted label and attention matrix')
 
     args = parser.parse_args()
 
@@ -29,59 +32,89 @@ if __name__ == "__main__":
     os.environ['CUDA_VISIBLE_DEVICES'] = ','.join(str(x) for x in args.gpu)
 
     original_length = len(args.seqs)
-    assert len(args.seqs) >= 21
-    if len(args.seqs) < 51:
-        args.model_weights = './model_weights/trained_model_21seqs.pkl'
-        length = 21
-        thresholds = [0.006630,0.202159,0.125162,0.129332,0.101850,0.355195,
-                      0.140955,0.299688,0.031190,0.181220,0.180271,0.350196]
-    else:
-        length = 51
-        thresholds = [0.008291,0.106070,0.141367,0.110626,0.107747,0.295998,
-                      0.126506,0.433442,0.032172,0.116947,0.189863,0.360362]
-    cutted_seqs = cutseqs([args.seqs],length)
+    check_pos = original_length - 51 + 1
+    assert original_length >= 51
 
 
     embeddings_dict = pickle.load(open(args.embedding_path,'rb'))
 
-    seqs_kmers_index = seq2index(cutted_seqs,embeddings_dict)
-
-    seqs_kmers_index = torch.transpose(torch.from_numpy(seqs_kmers_index),0,1)
-
     model = model_v3(num_task=num_task,use_embedding=True).cuda()
     model.load_state_dict(torch.load(args.model_weights))
 
-    # Evaluate and cal Attention weights
-    attention_weights, y_preds = evaluate(model,seqs_kmers_index)
-    total_attention = cal_attention(attention_weights)
+    neg_prob = pd.read_csv('neg_prob.csv',header=None,index_col=0)
 
-    for i in range(num_samples):
-        y_prob = [y_pred.detach().cpu().numpy()[i] for y_pred in y_preds]
-        bool = [y >=t for y, t in zip(y_prob,thresholds)]
-        print('**'*20+'Sample %d'%(i+1) + '**'*20)
+    probs = np.zeros((num_task,check_pos))
+    p_values = np.zeros((num_task,check_pos))
+    labels = np.zeros((num_task,original_length))
+    attention = np.zeros((num_task,original_length))
 
-        index_list = [i for i, e in enumerate(bool) if e == True]
+
+    print('*'*24+' Reporting'+'*'*24)
+
+    for pos in range(original_length-51+1):
+        cutted_seqs = args.seqs[pos:pos+51]
+
+
+        seqs_kmers_index = seq2index([cutted_seqs],embeddings_dict)
+
+        seqs_kmers_index = torch.transpose(torch.from_numpy(seqs_kmers_index),0,1)
+
+
+
+        # Evaluate and cal Attention weights
+        attention_weights, y_preds = evaluate(model,seqs_kmers_index)
+        total_attention = cal_attention(attention_weights)
+
+
+        y_prob = [y_pred.detach().cpu().numpy()[0] for y_pred in y_preds]
+
+
+        for k in range(num_task):
+            bool = neg_prob.iloc[k,:] > y_prob[k]
+            p_value = np.sum(bool) / len(bool)
+
+            if p_value < args.alpha:
+                labels[k,pos+26] = 1
+            p_values[k,pos] = p_value
+            probs[k,pos] = y_prob[k]
+
+
+
+        index_list = [i for i, e in enumerate(labels[:,pos+26]) if e == 1]
         if index_list == []:
-            print('There is no modification sites in that sequence')
-            print()
-            break
-        for idx in index_list:
-            y_label_pred = RMs[idx]
-            print('The sequence is predicted as: %s with prob %.6f at threshold %.6f'
-                   %(y_label_pred,y_prob[idx],thresholds[idx]))
+            print('There is no modification sites at %d '%(pos+26))
+        else:
+            for idx in index_list:
+                print('%s is predict at %d with p-value %.4f and alpha %.3f'
+                       %(RMs[idx],pos+26,p_values[idx,pos],args.alpha))
 
-            this_attention = total_attention[i,idx,:]
-            position_dict = highest_x(this_attention,w=3)
 
-            edge = (original_length-length) / 2
+                this_attention = total_attention[0,idx,:]
+                position_dict = highest_x(this_attention,w=3)
 
-            starts = []
-            ends = []
-            scores = []
-            for j in range(1,args.top+1):
-                score, start, end = position_dict[j]
-                starts.append(start+edge)
-                ends.append(end+edge)
-                scores.append(score)
+                edge = pos
 
-            visual_att(args.seqs,starts,ends)
+                starts = []
+                ends = []
+                scores = []
+                for j in range(1,args.top+1):
+                    score, start, end = position_dict[j]
+                    starts.append(start+edge)
+                    ends.append(end+edge)
+                    scores.append(score)
+
+                    attention[idx,start:end+1] = 1
+
+    if args.verbose:
+        print()
+        print('*'*15+'Visualize modification sites'+'*'*15)
+        visualize(args.seqs,labels,RMs)
+        print()
+        print('*'*19+' Visualize Attention'+'*'*19)
+        visualize(args.seqs,attention,RMs)
+
+    if args.save:
+        pd.DataFrame(data=probs,index=RMs).to_csv('probs.csv',header=False)
+        pd.DataFrame(data=p_values,index=RMs).to_csv('p_values.csv',header=False)
+        pd.DataFrame(data=labels,index=RMs).to_csv('pred_labels.csv',header=False)
+        pd.DataFrame(data=attention,index=RMs).to_csv('attention.csv',header=False)
