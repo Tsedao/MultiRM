@@ -15,7 +15,7 @@ cd MultiRM
 
 ## Demo
 Here is a simple demo which using `AGCTGCCCTCCTGCTCGGAGCTTAGACCACAAAAAAGCTTGAGTTGGGATCCCCCC`
-RNA sequence as input to predict modifications
+RNA sequence as input to predict modifications.
 
 Usage:
 ```
