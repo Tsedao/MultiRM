@@ -16,6 +16,7 @@ cd MultiRM
 ## Demo
 Here is a simple demo which using `AGCTGCCCTCCTGCTCGGAGCTTAGACCACAAAAAAGCTTGAGTTGGGATCCCCCC`
 RNA sequence as input to predict modifications
+
 Usage:
 ```
 python main.py -s [RNA sequence] --top [No. of top-k highlighted sites] --alpha [significant level] --gpu [which gpu to use]
