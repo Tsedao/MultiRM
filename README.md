@@ -28,9 +28,9 @@ python main.py -s AGCTGCCCTCCTGCTCGGAGCTTAGACCACAAAAAAGCTTGAGTTGGGATCCCCCC --top
 Predicting the RNA modification of a singe RNA sequence (Minimum length:51-bp), the result generates as:
 ```
 ************************ Reporting************************
-m6A is predict at 26 with p-value 0.0600 and alpha 0.100
-Cm is predict at 27 with p-value 0.0933 and alpha 0.100
-m5C is predict at 27 with p-value 0.0533 and alpha 0.100
+m6A is predicted at 26 with p-value 0.0600 and alpha 0.100
+Cm is predicted at 27 with p-value 0.0933 and alpha 0.100
+m5C is predicted at 27 with p-value 0.0533 and alpha 0.100
 There is no modification sites at 28
 There is no modification sites at 29
 There is no modification sites at 30
