@@ -9,7 +9,7 @@ Our current release has been tested on Ubuntu 16.04.4 LTS
 
 **Cloning the repository and downloading MultiRM**
 ```
-git clone git@github.com:Tsedao/MultiRM.git
+git clone https://github.com/Tsedao/MultiRM.git
 cd MultiRM
 ```
 
