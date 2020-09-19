@@ -107,7 +107,7 @@ if __name__ == "__main__":
 
                     attention[idx,start+edge:end+edge+1] = 1
 
-    print(attention)
+    # print(attention)
     if args.verbose:
         print()
         print('*'*15+'Visualize modification sites'+'*'*15)
