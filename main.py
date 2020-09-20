@@ -10,6 +10,8 @@ from models import model_v3
 from util_funs import seq2index, cutseqs, highest_x,visualize,str2bool
 from util_att import evaluate, cal_attention
 
+cwd = os.getcwd()
+
 if __name__ == "__main__":
 
     parser = argparse.ArgumentParser(description="MultiRM APP.")
@@ -23,6 +25,7 @@ if __name__ == "__main__":
     parser.add_argument('--att_window',type=int,default=3,help='length of sliding window to aggregate attention weights')
     parser.add_argument('--verbose',type=str2bool,default=False,help='Plot modification sites and related attention weights')
     parser.add_argument('--save',type=str2bool,default=False,help='save the prob, p-value, predicted label and attention matrix')
+    parser.add_argument('--save_path',type=str,default=cwd,help='path of directory to store the result')
     parser.add_argument('--save_id',type=str,default='',help='JOBID (for the use of web sever)')
 
     args = parser.parse_args()
@@ -38,7 +41,7 @@ if __name__ == "__main__":
     check_pos = original_length - 51 + 1
     assert original_length >= 51
 
-    cwd = os.getcwd()
+
     args.embedding_path = os.path.join(cwd,args.embedding_path)
     args.model_weights = os.path.join(cwd,args.model_weights)
     
@@ -121,7 +124,10 @@ if __name__ == "__main__":
         visualize(args.seqs,attention,RMs)
 
     if args.save:
-        pd.DataFrame(data=probs,index=RMs).to_csv(os.path.join(cwd,'_'.join(['probs',args.save_id,'.csv'])),header=False)
-        pd.DataFrame(data=p_values,index=RMs).to_csv(os.path.join(cwd,'_'.join(['p_values',args.save_id,'.csv'])),header=False)
-        pd.DataFrame(data=labels,index=RMs).to_csv(os.path.join(cwd,'_'.join(['pred_labels',args.save_id,'.csv'])),header=False)
-        pd.DataFrame(data=attention,index=RMs).to_csv(os.path.join(cwd,'_'.join(['attention',args.save_id,'.csv'])),header=False)
+        
+        os.mkdir(os.path.join(args.save_path,args.save_id))
+        
+        pd.DataFrame(data=probs,index=RMs).to_csv(os.path.join(args.save_path,args.save_id,'probs.csv'),header=False)
+        pd.DataFrame(data=p_values,index=RMs).to_csv(os.path.join(args.save_path,args.save_id,'p_values.csv'),header=False)
+        pd.DataFrame(data=labels,index=RMs).to_csv(os.path.join(args.save_path,args.save_id,'pred_labels.csv'),header=False)
+        pd.DataFrame(data=attention,index=RMs).to_csv(os.path.join(args.save_path,args.save_id,'attention.csv'),header=False)
