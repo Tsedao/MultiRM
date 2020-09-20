@@ -15,8 +15,8 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="MultiRM APP.")
 
     parser.add_argument("-s","--seqs",type=str)
-    parser.add_argument('--model_weights',default='./model_weights/trained_model_51seqs.pkl',type=str)
-    parser.add_argument('--embedding_path',default='./Embeddings/embeddings_12RM.pkl',type=str)
+    parser.add_argument('--model_weights',default='model_weights/trained_model_51seqs.pkl',type=str)
+    parser.add_argument('--embedding_path',default='Embeddings/embeddings_12RM.pkl',type=str)
     parser.add_argument('--gpu', type=int, default=[0], nargs='+', help="used GPU")
     parser.add_argument('--top',type=int,default=3,help='top k consecutive nucleo based on attention weights')
     parser.add_argument('--alpha',type=float,default=0.05,help='significant level')
@@ -37,7 +37,10 @@ if __name__ == "__main__":
     check_pos = original_length - 51 + 1
     assert original_length >= 51
 
-
+    cwd = os.getcwd()
+    args.embedding_path = os.path.join(cwd,args.embedding_path)
+    args.model_weights = os.path.join(cwd,args.model_weights)
+    
     embeddings_dict = pickle.load(open(args.embedding_path,'rb'))
 
     model = model_v3(num_task=num_task,use_embedding=True).cuda()
@@ -117,7 +120,7 @@ if __name__ == "__main__":
         visualize(args.seqs,attention,RMs)
 
     if args.save:
-        pd.DataFrame(data=probs,index=RMs).to_csv('probs.csv',header=False)
-        pd.DataFrame(data=p_values,index=RMs).to_csv('p_values.csv',header=False)
-        pd.DataFrame(data=labels,index=RMs).to_csv('pred_labels.csv',header=False)
-        pd.DataFrame(data=attention,index=RMs).to_csv('attention.csv',header=False)
+        pd.DataFrame(data=probs,index=RMs).to_csv(os.path.join(cwd,'probs.csv'),header=False)
+        pd.DataFrame(data=p_values,index=RMs).to_csv(os.path.join(cwd,'p_values.csv'),header=False)
+        pd.DataFrame(data=labels,index=RMs).to_csv(os.path.join(cwd,'pred_labels.csv'),header=False)
+        pd.DataFrame(data=attention,index=RMs).to_csv(ps.path.join(cwd,'attention.csv'),header=False)
