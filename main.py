@@ -125,7 +125,8 @@ if __name__ == "__main__":
 
     if args.save:
         
-        os.mkdir(os.path.join(args.save_path,args.save_id))
+        if not os.path.exists(os.path.join(args.save_path,args.save_id)):
+            os.mkdir(os.path.join(args.save_path,args.save_id))
         
         pd.DataFrame(data=probs,index=RMs).to_csv(os.path.join(args.save_path,args.save_id,'probs.csv'),header=False)
         pd.DataFrame(data=p_values,index=RMs).to_csv(os.path.join(args.save_path,args.save_id,'p_values.csv'),header=False)
