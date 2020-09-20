@@ -241,4 +241,4 @@ def visualize(raw_seq,weights,RMs):
             for j in range(start,end):
                 if int(weight[j]) == 1:
                     new[j-start] = raw_seq[j]
-            print('%-7s'%(RMs[i])+''.join(new))
+            print('%-7s'%(RMs[i]+'*'*(6-len(RMs[i])))+''.join(new))
