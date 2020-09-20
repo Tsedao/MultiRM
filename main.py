@@ -124,4 +124,4 @@ if __name__ == "__main__":
         pd.DataFrame(data=probs,index=RMs).to_csv(os.path.join(cwd,'_'.join(['probs',args.save_id,'.csv'])),header=False)
         pd.DataFrame(data=p_values,index=RMs).to_csv(os.path.join(cwd,'_'.join(['p_values',args.save_id,'.csv'])),header=False)
         pd.DataFrame(data=labels,index=RMs).to_csv(os.path.join(cwd,'_'.join(['pred_labels',args.save_id,'.csv'])),header=False)
-        pd.DataFrame(data=attention,index=RMs).to_csv(ps.path.join(cwd,'_'.join(['attention',args.save_id,'.csv'])),header=False)
+        pd.DataFrame(data=attention,index=RMs).to_csv(os.path.join(cwd,'_'.join(['attention',args.save_id,'.csv'])),header=False)
