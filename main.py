@@ -57,8 +57,9 @@ if __name__ == "__main__":
     labels = np.zeros((num_task,original_length))
     attention = np.zeros((num_task,original_length))
 
-
-    print('*'*24+' Reporting'+'*'*24)
+    print('Note: MultiRM does not make predictions for the first and last 25nt of the input sequence.'
+    print()
+    print('*'*24+'Reporting'+'*'*24)
 
     for pos in range(original_length-51+1):
         cutted_seqs = args.seqs[pos:pos+51]
@@ -117,11 +118,11 @@ if __name__ == "__main__":
                     attention[idx,start+edge:end+edge+1] = 1
 
     # print(attention)
-    print()
-    print('*'*15+'Visualize modification sites'+'*'*15)
+    print('*'*15+'Visualize modification sites'+'*'*14)
     visualize(args.seqs,labels,RMs)
     print()
-    print('*'*19+' Visualize Attention'+'*'*19)
+    print()
+    print('*'*19+'Visualize Attention'+'*'*19)
     visualize(args.seqs,attention,RMs)
 
     if args.save:
