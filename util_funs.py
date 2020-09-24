@@ -226,14 +226,14 @@ def highest_x(a,w,p=1):
 
 
 def visualize(raw_seq,weights,RMs):
-    num_bp = len(raw_seq) // 51 + 1
+    num_bp = len(raw_seq) // 50 + 1
 
     for k in range(num_bp):
-        start = 51*k
+        start = 50*k
         end = np.min([51*(k+1),len(raw_seq)])
         cutted_seqs = raw_seq[start:end]
         # 58 characters
-        print('*'*24+'%3d-%3d bp' %(start+1,end) + '*'*24)
+        print('*'*24+'%3d-%3d bp' %(start+1,end) + '*'*23)
         print('%-7s'%('Origin')+cutted_seqs)
         for i in range(len(RMs)):
             weight = weights[i,:]
