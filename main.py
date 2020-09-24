@@ -93,7 +93,7 @@ if __name__ == "__main__":
         index_list = [i for i, e in enumerate(labels[:,pos+25]) if e == 1]
         if index_list == []:
             if args.verbose: 
-                print('There is no modification sites at %d '%(pos+26))
+                print('There is no modification site at %d '%(pos+26))
         else:
             for idx in index_list:
                 if args.verbose:
