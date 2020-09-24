@@ -57,8 +57,7 @@ if __name__ == "__main__":
     labels = np.zeros((num_task,original_length))
     attention = np.zeros((num_task,original_length))
 
-    print('Note: MultiRM does not make predictions for the first and \n
-           last 25nt of the input sequence.')
+    print('Note: MultiRM does not make predictions for the first and \nlast 25nt of the input sequence.')
     print()
     print('*'*24+'Reporting'+'*'*24)
 
