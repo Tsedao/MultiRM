@@ -130,7 +130,8 @@ if __name__ == "__main__":
         if not os.path.exists(os.path.join(args.save_path,args.save_id)):
             os.mkdir(os.path.join(args.save_path,args.save_id))
         
-        pd.DataFrame(data=probs,index=RMs).to_csv(os.path.join(args.save_path,args.save_id,'probs.csv'),header=False)
-        pd.DataFrame(data=p_values,index=RMs).to_csv(os.path.join(args.save_path,args.save_id,'p_values.csv'),header=False)
-        pd.DataFrame(data=labels,index=RMs).to_csv(os.path.join(args.save_path,args.save_id,'pred_labels.csv'),header=False)
-        pd.DataFrame(data=attention,index=RMs).to_csv(os.path.join(args.save_path,args.save_id,'attention.csv'),header=False)
+        cols_name = [i+26 for i in range(len(RMs)-50)]
+        pd.DataFrame(data=probs,index=RMs,columns=cols_name).to_csv(os.path.join(args.save_path,args.save_id,'probs.csv'),header=False)
+        pd.DataFrame(data=p_values,index=RMs,columns=cols_name).to_csv(os.path.join(args.save_path,args.save_id,'p_values.csv'),header=False)
+        pd.DataFrame(data=labels,index=RMs,columns=cols_name).to_csv(os.path.join(args.save_path,args.save_id,'pred_labels.csv'),header=False)
+        pd.DataFrame(data=attention,index=RMs,columns=cols_name).to_csv(os.path.join(args.save_path,args.save_id,'attention.csv'),header=False)
