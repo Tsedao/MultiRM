@@ -23,7 +23,7 @@ if __name__ == "__main__":
     parser.add_argument('--top',type=int,default=3,help='top k consecutive nucleo based on attention weights')
     parser.add_argument('--alpha',type=float,default=0.05,help='significant level')
     parser.add_argument('--att_window',type=int,default=3,help='length of sliding window to aggregate attention weights')
-    parser.add_argument('--verbose',type=str2bool,default=False,help='Plot modification sites and related attention weights')
+    parser.add_argument('--verbose',type=str2bool,default=False,help='whether showing detailed prediction results or not')
     parser.add_argument('--save',type=str2bool,default=False,help='save the prob, p-value, predicted label and attention matrix')
     parser.add_argument('--save_path',type=str,default=cwd,help='path of directory to store the result')
     parser.add_argument('--save_id',type=str,default='',help='JOBID (for the use of web sever)')
@@ -91,11 +91,13 @@ if __name__ == "__main__":
 
         index_list = [i for i, e in enumerate(labels[:,pos+25]) if e == 1]
         if index_list == []:
-            print('There is no modification sites at %d '%(pos+26))
+            if args.verbose: 
+                print('There is no modification sites at %d '%(pos+26))
         else:
             for idx in index_list:
-                print('%s is predicted at %d with p-value %.4f and alpha %.3f'
-                       %(RMs[idx],pos+26,p_values[idx,pos],args.alpha))
+                if args.verbose:
+                    print('%s is predicted at %d with p-value %.4f and alpha %.3f'
+                           %(RMs[idx],pos+26,p_values[idx,pos],args.alpha))
 
 
                 this_attention = total_attention[0,idx,:]
@@ -115,13 +117,12 @@ if __name__ == "__main__":
                     attention[idx,start+edge:end+edge+1] = 1
 
     # print(attention)
-    if args.verbose:
-        print()
-        print('*'*15+'Visualize modification sites'+'*'*15)
-        visualize(args.seqs,labels,RMs)
-        print()
-        print('*'*19+' Visualize Attention'+'*'*19)
-        visualize(args.seqs,attention,RMs)
+    print()
+    print('*'*15+'Visualize modification sites'+'*'*15)
+    visualize(args.seqs,labels,RMs)
+    print()
+    print('*'*19+' Visualize Attention'+'*'*19)
+    visualize(args.seqs,attention,RMs)
 
     if args.save:
         
