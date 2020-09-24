@@ -230,7 +230,7 @@ def visualize(raw_seq,weights,RMs):
 
     for k in range(num_bp):
         start = 50*k
-        end = np.min([51*(k+1),len(raw_seq)])
+        end = np.min([50*(k+1),len(raw_seq)])
         cutted_seqs = raw_seq[start:end]
         # 58 characters
         print('*'*24+'%3d-%3d bp' %(start+1,end) + '*'*23)
