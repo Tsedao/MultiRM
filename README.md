@@ -27,7 +27,7 @@ The following options are available:
 * `seqs`: Input single RNA sequnce in string format. (Minimum length: 51-bp)
 * `att_window`: Length of sliding window to aggregate attention weights on a single sequence. (default:3; recommended range: 2-6)
 * `top`: Number of top consecutive nucleotides based on the summation of attention weights. (default:3; recommended range: 2-5)
-* `alpha`:Significant level. (default:0.05)
+* `alpha`:Significance level. (default:0.05)
 * `verbose`: Whether to show the detailed predictions or not. (default:False)
 * `save`: Whether to save the results to file or not. (default:False)
 * `save_path`: (Optional) Path of desirable directory to store results. (default: current working directory)
