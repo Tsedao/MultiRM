@@ -130,9 +130,8 @@ if __name__ == "__main__":
         if not os.path.exists(os.path.join(args.save_path,args.save_id)):
             os.mkdir(os.path.join(args.save_path,args.save_id))
         
-        cols_name = [i+26 for i in range(len(RMs)-50)]
-        print(cols_name)
-        print(len(cols_name))
+        cols_name = [i+26 for i in range(len(args.seqs)-50)]
+
         pd.DataFrame(data=probs,index=RMs,columns=cols_name).to_csv(os.path.join(args.save_path,args.save_id,'probs.csv'),header=True)
         pd.DataFrame(data=p_values,index=RMs,columns=cols_name).to_csv(os.path.join(args.save_path,args.save_id,'p_values.csv'),header=True)
         pd.DataFrame(data=labels,index=RMs,columns=cols_name).to_csv(os.path.join(args.save_path,args.save_id,'pred_labels.csv'),header=True)
