@@ -19,6 +19,7 @@ RNA sequence as input to predict modifications.
 
 Usage:
 ```
+cd Scripts
 python main.py -s [RNA sequence] --top [No. of top-k highlighted sites] --alpha [significant level] --gpu [which gpu to use]
 ```
 
@@ -31,7 +32,7 @@ The following options are available:
 * `verbose`: Whether to show the detailed predictions or not. (default:False)
 * `save`: Whether to save the results to file or not. (default:False)
 * `save_path`: (Optional) Path of desirable directory to store results. (default: current working directory)
-* `save_id`: (Optional) JOBID for the use of web sever. 
+* `save_id`: (Optional) JOBID for the use of web sever.
 
 Example:
 ```
@@ -39,7 +40,7 @@ python main.py -s GGGGCCGTGGATACCTGCCTTTTAATTCTTTTTTATTCGCCCATCGGGGCCGCGGATACCTG
 ```
 Predicting the RNA modification of a singe RNA sequence (Minimum length:51-bp), the result generates as:
 ```
-Note: MultiRM does not make predictions for the first and 
+Note: MultiRM does not make predictions for the first and
 last 25nt of the input sequence.
 
 ************************Reporting************************
