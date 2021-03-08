@@ -5,7 +5,9 @@
 * `CUDA`: 10.1
 * `pytorch`: 1.2.0
 ## Installation
-Our current release has been tested on Ubuntu 16.04.4 LTS
+For command line version, our current release has been tested on Ubuntu 16.04.4 LTS.
+
+For GUI version, please check our [Web-Server]( www.xjtlu.edu.cn/biologicalsciences/multirm).
 
 **Cloning the repository and downloading MultiRM**
 ```
@@ -194,3 +196,9 @@ You also can check detailed descriptions by turning `verbose` into `True`:
 python main.py -s GGGGCCGTGGATACCTGCCTTTTAATTCTTTTTTATTCGCCCATCGGGGCCGCGGATACCTGCTTTTTATTTTTTTTTCCTTAGCCCATCGGGGTATCGGATACCTGCTGATTCCCTTCCCCTCTGAACCCCCAACACTCTGGCCCATCGGGGTGACGGATATCTGCTTTTTAAAAATTTTCTTTTTTTGGCCCATCGGGGCTTCGGATA --top 3 --att_window=3 --alpha=0.1 --gpu=0 --verbose=True
 ```
 Additionally ,you can save these results by turning `save` to `True`.
+
+## Train your own MultiRM from scratch
+```
+python train.py --mode='train' --use_embedding=True --epochs=10 --lr=0.001 --batch_size=64 --length=51
+```
+For reference, please check our [training data profie](https://github.com/Tsedao/MultiRM/blob/master/Notebooks/RMdata_profile.ipynb)
