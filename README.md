@@ -7,7 +7,7 @@
 ## Installation
 For command line version, our current release has been tested on Ubuntu 16.04.4 LTS.
 
-For GUI version, please check our [Web-Server]( www.xjtlu.edu.cn/biologicalsciences/multirm).
+For GUI version, please check it on our [Web Server](https://www.xjtlu.edu.cn/biologicalsciences/multirm).
 
 **Cloning the repository and downloading MultiRM**
 ```
