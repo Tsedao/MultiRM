@@ -497,7 +497,6 @@ def cal_metrics(model_out,label,plot=False,class_names=None,plot_name=None):
             axes[1].plot(fpr_2[i], tpr_2[i], color=colors[i],lw=lw,
                      label ='%s ($AUC_{b}$ = %.2f, $AUC_{m}$ = %.2f)'%(class_name,
                                 metrics['auc'][i],metrics['auc_2'][i]))
-            axes[1].plot([0, 1], [0, 1], 'k--', lw=lw, label='no skill')
             axes[1].set_xlim([0.0, 1.0])
             axes[1].set_ylim([0.0, 1.0])
             axes[1].tick_params(axis='x',which='both',top=False)

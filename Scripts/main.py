@@ -5,6 +5,7 @@ import pickle
 import torch
 import numpy as np
 import pandas as pd
+import json
 
 from models import model_v3
 from util_funs import seq2index, cutseqs, highest_x,visualize,str2bool
@@ -118,12 +119,22 @@ if __name__ == "__main__":
                     attention[idx,start+edge:end+edge+1] = 1
 
     # print(attention)
-    print('*'*15+'Visualize modification sites'+'*'*14)
-    visualize(args.seqs,labels,RMs)
+    str_out = []
+    seperate_line = '*'*15+'Visualize modification sites'+'*'*14
+    str_out.append(seperate_line)
+    print(seperate_line)
+    str_list_1 = visualize(args.seqs,labels,RMs)
+    str_out += str_list_1
     print()
     print()
-    print('*'*19+'Visualize Attention'+'*'*19)
-    visualize(args.seqs,attention,RMs)
+    str_out.append('\n')
+    str_out.append('\n')
+    seperate_line_2 = '*'*19+'Visualize Attention'+'*'*19
+    print(seperate_line_2)
+    str_out.append(seperate_line_2)
+    str_list_2 = visualize(args.seqs,attention,RMs)
+    str_out += str_list_2
+
 
     if args.save:
 
@@ -132,6 +143,13 @@ if __name__ == "__main__":
 
         cols_name = [i+26 for i in range(len(args.seqs)-50)]
         cols_name_2 = [i for i in range(len(args.seqs))]
+
+        with open(os.path.join(args.save_path,args.save_id,'../Results/visualization.json'),'w') as f:
+            json.dump(str_out, f)
+
+        # with open(os.path.join(args.save_path,args.save_id,'../Results/visualization.csv'), 'w') as f:
+        #     for line in str_out:
+        #         f.write("%s\n"%(line))
 
         pd.DataFrame(data=probs,index=RMs,columns=cols_name).to_csv(os.path.join(args.save_path,args.save_id,'../Results/probs.csv'),header=True)
         pd.DataFrame(data=p_values,index=RMs,columns=cols_name).to_csv(os.path.join(args.save_path,args.save_id,'../Results/p_values.csv'),header=True)
