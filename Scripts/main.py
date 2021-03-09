@@ -60,7 +60,9 @@ if __name__ == "__main__":
 
     print('Note: MultiRM does not make predictions for the first and \nlast 25nt of the input sequence.')
     print()
+    str_out = []
     print('*'*24+'Reporting'+'*'*24)
+    str_out.append('*'*24+'Reporting'+'*'*24)
 
     for pos in range(original_length-51+1):
         cutted_seqs = args.seqs[pos:pos+51]
@@ -94,12 +96,16 @@ if __name__ == "__main__":
         index_list = [i for i, e in enumerate(labels[:,pos+25]) if e == 1]
         if index_list == []:
             if args.verbose:
-                print('There is no modification site at %d '%(pos+26))
+                sentense = 'There is no modification site at %d '%(pos+26)
+                print(sentense)
+                str_out.append(sentense)
         else:
             for idx in index_list:
                 if args.verbose:
-                    print('%s is predicted at %d with p-value %.4f and alpha %.3f'
-                           %(RMs[idx],pos+26,p_values[idx,pos],args.alpha))
+                    sentense = '%s is predicted at %d with p-value %.4f and alpha %.3f'%(
+                                     RMs[idx],pos+26,p_values[idx,pos],args.alpha)
+                    print(sentense)
+                    str_out.append(sentense)
 
 
                 this_attention = total_attention[0,idx,:]
@@ -119,7 +125,6 @@ if __name__ == "__main__":
                     attention[idx,start+edge:end+edge+1] = 1
 
     # print(attention)
-    str_out = []
     seperate_line = '*'*15+'Visualize modification sites'+'*'*14
     str_out.append(seperate_line)
     print(seperate_line)
