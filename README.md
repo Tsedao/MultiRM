@@ -1,5 +1,7 @@
 # MultiRM: Attention-based multi-label neural networks for integrated prediction and interpretation of twelve widely occuring RNA modifications
 
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.4851898.svg)](https://doi.org/10.5281/zenodo.4851898)
+
 ## Prerequisites
 * `python`: 3.7.6
 * `CUDA`: 10.1
