@@ -249,4 +249,4 @@ def visualize(raw_seq,weights,RMs):
             print(modif)
             str_list.append(modif)
 
-        return str_list
+    return str_list
